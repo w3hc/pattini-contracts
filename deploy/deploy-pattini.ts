@@ -3,28 +3,30 @@ const color = require("cli-color")
 var msg = color.xterm(39).bgXterm(128)
 import hre, { ethers, network } from "hardhat"
 
-const initialMint = ethers.parseEther("10000")
-
 export default async ({ getNamedAccounts, deployments }: any) => {
     const { deploy } = deployments
 
     const { deployer } = await getNamedAccounts()
-    console.log(deployer)
+    console.log("\ndeployer:", deployer)
 
-    const basic = await deploy("Basic", {
+    // constructor(string memory _repositoryName, address _tokenAddress, address _funderAddress)
+    const repositoryName = "github-action-test"
+    // const tokenAddress = "0x7f5c764cbc14f9669b88837ca1490cca17c31607" // USDC on Optimism (bridged from Ethereum)
+    const tokenAddress = "0xe6bcd785b90dc16d667b022cc871c046587d9ac5" // EUR on Sepolia
+
+    const funderAddress = "0xD8a394e7d7894bDF2C57139fF17e5CBAa29Dd977" // Alice
+
+    const pattini = await deploy("Pattini", {
         from: deployer,
-        args: [initialMint],
+        args: [repositoryName, tokenAddress, funderAddress],
         log: true
     })
-
-    console.log("basic.receipt.contractAddress:", basic.receipt.contractAddress)
-    console.log("hre.network.name:", hre.network.name)
 
     switch (hre.network.name) {
         case "arthera":
             console.log(
                 "Basic ERC-20 token contract deployed:",
-                msg(basic.receipt.contractAddress)
+                msg(pattini.receipt.contractAddress)
             )
 
             try {
@@ -52,7 +54,7 @@ export default async ({ getNamedAccounts, deployments }: any) => {
         case "arthera-testnet":
             console.log(
                 "Basic ERC-20 token contract deployed:",
-                msg(basic.receipt.contractAddress)
+                msg(pattini.receipt.contractAddress)
             )
 
             try {
@@ -66,7 +68,7 @@ export default async ({ getNamedAccounts, deployments }: any) => {
                 // await hre.run("verify:verify", {
                 //     network: network.name,
                 //     address: basic.receipt.contractAddress,
-                //     constructorArguments: [initialMint]
+                //     constructorArguments: [repositoryName, tokenAddress ,funderAddress]
                 // })
 
                 console.log(
@@ -81,7 +83,7 @@ export default async ({ getNamedAccounts, deployments }: any) => {
             try {
                 console.log(
                     "Basic ERC-20 token contract deployed:",
-                    msg(basic.receipt.contractAddress)
+                    msg(pattini.receipt.contractAddress)
                 )
                 console.log("\nEtherscan verification in progress...")
                 console.log(
@@ -90,8 +92,12 @@ export default async ({ getNamedAccounts, deployments }: any) => {
                 // await basic.deploymentTransaction()?.wait(6)
                 await hre.run("verify:verify", {
                     network: network.name,
-                    address: basic.receipt.contractAddress,
-                    constructorArguments: [initialMint]
+                    address: pattini.receipt.contractAddress,
+                    constructorArguments: [
+                        repositoryName,
+                        tokenAddress,
+                        funderAddress
+                    ]
                 })
                 console.log("Etherscan verification done. ✅")
             } catch (error) {
@@ -103,7 +109,7 @@ export default async ({ getNamedAccounts, deployments }: any) => {
             try {
                 console.log(
                     "Basic ERC-20 token contract deployed:",
-                    msg(basic.receipt.contractAddress)
+                    msg(pattini.receipt.contractAddress)
                 )
                 console.log("\nEtherscan verification in progress...")
                 console.log(
@@ -112,8 +118,12 @@ export default async ({ getNamedAccounts, deployments }: any) => {
                 // await basic.deploymentTransaction()?.wait(6)
                 await hre.run("verify:verify", {
                     network: network.name,
-                    address: basic.receipt.contractAddress,
-                    constructorArguments: [initialMint]
+                    address: pattini.receipt.contractAddress,
+                    constructorArguments: [
+                        repositoryName,
+                        tokenAddress,
+                        funderAddress
+                    ]
                 })
                 console.log("Etherscan verification done. ✅")
             } catch (error) {
@@ -122,4 +132,4 @@ export default async ({ getNamedAccounts, deployments }: any) => {
             break
     }
 }
-export const tags = ["Basic"]
+export const tags = ["Pattini"]

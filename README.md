@@ -1,19 +1,4 @@
-# W3HC Hardhat Template
-
-This Hardhat template includes:
-
--   [Typescript](https://www.typescriptlang.org/)
--   [Ethers v6](https://docs.ethers.org/v6/)
--   [Open Zeppelin contracts v4.9.3](https://github.com/OpenZeppelin/openzeppelin-contracts/tree/release-v4.9)
--   [Hardhat Verify plugin](https://hardhat.org/hardhat-runner/plugins/nomicfoundation-hardhat-verify)
--   [Hardhat Deploy plugin](https://github.com/wighawag/hardhat-deploy)
-
-## Supported networks
-
--   [Arthera Mainnet](https://chainlist.org/chain/10242) ([docs](https://docs.arthera.net/build/networks#arthera-mainnet))
--   [Arthera testnet](https://chainlist.org/chain/10243) ([docs](https://docs.arthera.net/build/networks#arthera-testnet))
--   [Sepolia Testnet](https://chainlist.org/chain/11155111) ([docs](https://ethereum.org/nb/developers/docs/networks/#sepolia))
--   [OP Sepolia Testnet](https://chainlist.org/chain/11155420) ([docs](https://docs.optimism.io/chain/networks#op-sepolia))
+# Pattini Contracts
 
 ## Install
 
@@ -55,17 +40,10 @@ pnpm bal <NETWORK_NAME>
 pnpm sourcify:<NETWORK_NAME>
 ```
 
-## Mint
+## Deployments
 
-```
-pnpm mint:<NETWORK_NAME> 42
-```
-
-## Send
-
-```
-pnpm send:<NETWORK_NAME> 8
-```
+- First deployment to Sepolia: https://sepolia.etherscan.io/address/0x4ce76EA09136fA38CD54c2EE82ab8403A9b8A414 
+- EUR contract: https://sepolia.etherscan.io/address/0xe6bcd785b90dc16d667b022cc871c046587d9ac5
 
 ## Versions
 
