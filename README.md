@@ -42,8 +42,8 @@ pnpm sourcify:<NETWORK_NAME>
 
 ## Deployments
 
-- First deployment to Sepolia: https://sepolia.etherscan.io/address/0x4ce76EA09136fA38CD54c2EE82ab8403A9b8A414 
-- EUR contract: https://sepolia.etherscan.io/address/0xe6bcd785b90dc16d667b022cc871c046587d9ac5
+-   First deployment to Sepolia: https://sepolia.etherscan.io/address/0x4ce76EA09136fA38CD54c2EE82ab8403A9b8A414
+-   EUR contract: https://sepolia.etherscan.io/address/0xe6bcd785b90dc16d667b022cc871c046587d9ac5
 
 ## Versions
 
