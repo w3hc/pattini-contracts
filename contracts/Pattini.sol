@@ -62,6 +62,8 @@ contract Pattini is Ownable {
 
     function pay(uint256 _issue, uint256 _pullRequest) public onlyOwner {
         uint256 i = getIndex(_issue);
+        require(!contributions[i].paid, "Issue already paid");
+
         contributions[i].pullRequest = _pullRequest;
         contributions[i].paid = true;
 
