@@ -46,22 +46,42 @@ describe("Pattini", function () {
     describe("Interactions", function () {
         it("Should take an issue", async function () {
             const { pattini, bob } = await loadFixture(deployContracts)
-            await pattini.take(1, 42, "abcd", bob.address)
-            expect((await pattini.getIssue(1))[1]).to.be.equal(42)
+            await pattini.take(88888, 42, "abcd", bob.address)
+            expect((await pattini.getIssue(88888))[1]).to.be.equal(42)
         })
         it("Should pay a contributor", async function () {
             const { pattini, bob, eur } = await loadFixture(deployContracts)
 
-            await pattini.take(1, 42, "abcd", bob.address)
-            expect((await pattini.getIssue(1))[1]).to.be.equal(42)
+            await pattini.take(88888, 42, "abcd", bob.address)
+            expect((await pattini.getIssue(88888))[1]).to.be.equal(42)
 
             expect(await eur.balanceOf(bob.address)).to.be.equal(
                 ethers.parseEther("0")
             )
-            await pattini.pay(1, 83, "abcd")
+            await pattini.pay(88888, 83, "abcd")
             expect(await eur.balanceOf(bob.address)).to.be.equal(
                 ethers.parseEther("42")
             )
+        })
+        it("Should not take the issue", async function () {
+            const { pattini, bob, eur } = await loadFixture(deployContracts)
+
+            await pattini.take(88888, 42, "abcd", bob.address)
+            expect((await pattini.getIssue(88888))[1]).to.be.equal(42)
+
+            expect(await eur.balanceOf(bob.address)).to.be.equal(
+                ethers.parseEther("0")
+            )
+            await pattini.pay(88888, 83, "abcd")
+            expect(await eur.balanceOf(bob.address)).to.be.equal(
+                ethers.parseEther("42")
+            )
+
+            await expect(
+                pattini.take(88888, 42, "abcd", bob.address)
+            ).to.be.revertedWith("Issue already paid")
+
+            expect(await pattini.take(55555, 42, "abcd", bob.address)).to.emit()
         })
     })
 })
