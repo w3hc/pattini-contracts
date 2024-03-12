@@ -75,8 +75,13 @@ contract Pattini is Ownable {
     function flush() public onlyFunder {
         uint256 totalPending;
         for (uint256 i; i < contributions.length; i++) {
-            if (contributions[i].paid == false) {}
-            totalPending = totalPending + contributions[i].amount;
+            if (contributions[i].paid == false) {
+                for (uint256 x; x < contributions.length; x++) {
+                    if (contributions[i].issue == contributions[x].issue) {} else {
+                        totalPending = totalPending + contributions[i].amount;
+                    }
+                }
+            }
         }
         uint256 withdrawableAmount = ERC20(tokenAddress).balanceOf(address(this)) -
             (ERC20(tokenAddress).balanceOf(address(this)) - (totalPending * 10 ** 18));

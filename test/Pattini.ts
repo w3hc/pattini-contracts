@@ -55,6 +55,7 @@ describe("Pattini", function () {
             await pattini.take(88888, 42, bob.address)
             expect((await pattini.getIssue(88888))[1]).to.be.equal(42)
         })
+
         it("Should pay a contributor", async function () {
             const { pattini, bob, eur } = await loadFixture(deployContracts)
 
@@ -69,6 +70,7 @@ describe("Pattini", function () {
                 ethers.parseEther("42")
             )
         })
+
         it("Should not take the issue", async function () {
             const { pattini, bob, eur } = await loadFixture(deployContracts)
 
@@ -89,10 +91,9 @@ describe("Pattini", function () {
 
             expect(await pattini.take(55555, 42, bob.address)).to.emit()
         })
+
         it("Should flush", async function () {
-            const { pattini, bob, eur, alice } = await loadFixture(
-                deployContracts
-            )
+            const { pattini, bob, eur } = await loadFixture(deployContracts)
 
             await pattini.take(88888, 42, bob.address)
             expect((await pattini.getIssue(88888))[1]).to.be.equal(42)
@@ -106,6 +107,20 @@ describe("Pattini", function () {
 
             expect(await eur.balanceOf(await pattini.getAddress())).to.be.equal(
                 ethers.parseEther("100")
+            )
+        })
+
+        it("Should handle multiple entry for the same issue", async function () {
+            const { pattini, bob, eur } = await loadFixture(deployContracts)
+            await pattini.take(88888, 10, bob.address)
+            expect((await pattini.getIssue(88888))[1]).to.be.equal(10)
+            expect(await eur.balanceOf(await pattini.getAddress())).to.be.equal(
+                ethers.parseEther("200")
+            )
+            await pattini.take(88888, 10, bob.address)
+            await pattini.flush()
+            expect(await eur.balanceOf(await pattini.getAddress())).to.be.equal(
+                ethers.parseEther("200")
             )
         })
     })
