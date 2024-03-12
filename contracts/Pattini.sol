@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: GPL-3.0
-pragma solidity ^0.8.0;
+pragma solidity ^0.8.20;
 
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
@@ -12,11 +12,9 @@ contract Pattini is Ownable {
     struct Contribution {
         uint256 issue; // issue number
         uint256 amount; // `amount` Github project custom field
-        string previousCommitHash; // hash before contrib // example: 6d0b2cb70a365dfc2e62136f134741bd5ac21a97 // git rev-parse HEAD
         address recipient; // contributor address
         bool paid;
         uint256 pullRequest;
-        string commitHash;
     }
 
     Contribution[] public contributions;
@@ -25,18 +23,17 @@ contract Pattini is Ownable {
         uint256 indexed issue,
         uint256 indexed amount,
         address indexed recipient,
-        string previousCommitHash,
         uint256 timestamp
     );
 
-    event Paid(
-        uint256 indexed issue,
-        uint256 indexed pullRequest,
-        string indexed commitHash,
-        uint256 timestamp
-    );
+    event Paid(uint256 indexed issue, uint256 indexed pullRequest, uint256 timestamp);
 
-    constructor(string memory _repositoryName, address _tokenAddress, address _funderAddress) {
+    constructor(
+        address _initialOwner,
+        string memory _repositoryName,
+        address _tokenAddress,
+        address _funderAddress
+    ) Ownable(_initialOwner) {
         repositoryName = _repositoryName;
         tokenAddress = _tokenAddress;
         funderAddress = _funderAddress;
@@ -47,12 +44,7 @@ contract Pattini is Ownable {
         _;
     }
 
-    function take(
-        uint256 _issue,
-        uint256 _amount,
-        string memory _previousCommitHash,
-        address _recipient
-    ) public onlyOwner {
+    function take(uint256 _issue, uint256 _amount, address _recipient) public onlyOwner {
         uint256 index = getIndex(_issue);
         require(index == contributions.length || !contributions[index].paid, "Issue already paid");
 
@@ -60,31 +52,41 @@ contract Pattini is Ownable {
             Contribution({
                 issue: _issue,
                 amount: _amount,
-                previousCommitHash: _previousCommitHash,
                 recipient: _recipient,
                 paid: false,
-                pullRequest: 0,
-                commitHash: "unset"
+                pullRequest: 0
             })
         );
-        emit Taken(_issue, _amount, _recipient, _previousCommitHash, block.timestamp);
+        emit Taken(_issue, _amount, _recipient, block.timestamp);
     }
 
-    function pay(uint256 _issue, uint256 _pullRequest, string memory _commitHash) public onlyOwner {
+    function pay(uint256 _issue, uint256 _pullRequest) public onlyOwner {
         uint256 i = getIndex(_issue);
         contributions[i].pullRequest = _pullRequest;
-        contributions[i].commitHash = _commitHash;
         contributions[i].paid = true;
 
         ERC20(tokenAddress).transfer(
             contributions[i].recipient,
             contributions[i].amount * 10 ** 18
         );
-        emit Paid(_issue, _pullRequest, _commitHash, block.timestamp);
+        emit Paid(_issue, _pullRequest, block.timestamp);
     }
 
-    function flush(uint256 _issue) public onlyFunder {
-        // TODO: sends the whole balance to funder
+    function flush() public onlyFunder {
+        uint256 totalPending;
+        for (uint256 i; i < contributions.length; i++) {
+            if (contributions[i].paid == false) {
+                for (uint256 x; x < contributions.length; x++) {
+                    if (contributions[i].issue == contributions[x].issue) {} else {
+                        totalPending = totalPending + contributions[i].amount;
+                    }
+                }
+            }
+        }
+        uint256 withdrawableAmount = ERC20(tokenAddress).balanceOf(address(this)) -
+            (ERC20(tokenAddress).balanceOf(address(this)) - (totalPending * 10 ** 18));
+
+        ERC20(tokenAddress).transfer(funderAddress, withdrawableAmount);
     }
 
     function getIndex(uint256 _issue) private view returns (uint256) {
