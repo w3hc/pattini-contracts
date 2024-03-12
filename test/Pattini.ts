@@ -58,7 +58,7 @@ describe("Pattini", function () {
             expect(await eur.balanceOf(bob.address)).to.be.equal(
                 ethers.parseEther("0")
             )
-            await pattini.pay(88888, 83, "abcd")
+            await pattini.pay(88888, 83)
             expect(await eur.balanceOf(bob.address)).to.be.equal(
                 ethers.parseEther("42")
             )
@@ -72,7 +72,7 @@ describe("Pattini", function () {
             expect(await eur.balanceOf(bob.address)).to.be.equal(
                 ethers.parseEther("0")
             )
-            await pattini.pay(88888, 83, "abcd")
+            await pattini.pay(88888, 83)
             expect(await eur.balanceOf(bob.address)).to.be.equal(
                 ethers.parseEther("42")
             )

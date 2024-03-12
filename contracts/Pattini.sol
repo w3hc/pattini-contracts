@@ -16,7 +16,6 @@ contract Pattini is Ownable {
         address recipient; // contributor address
         bool paid;
         uint256 pullRequest;
-        string commitHash;
     }
 
     Contribution[] public contributions;
@@ -29,12 +28,7 @@ contract Pattini is Ownable {
         uint256 timestamp
     );
 
-    event Paid(
-        uint256 indexed issue,
-        uint256 indexed pullRequest,
-        string indexed commitHash,
-        uint256 timestamp
-    );
+    event Paid(uint256 indexed issue, uint256 indexed pullRequest, uint256 timestamp);
 
     constructor(string memory _repositoryName, address _tokenAddress, address _funderAddress) {
         repositoryName = _repositoryName;
@@ -63,24 +57,22 @@ contract Pattini is Ownable {
                 previousCommitHash: _previousCommitHash,
                 recipient: _recipient,
                 paid: false,
-                pullRequest: 0,
-                commitHash: "unset"
+                pullRequest: 0
             })
         );
         emit Taken(_issue, _amount, _recipient, _previousCommitHash, block.timestamp);
     }
 
-    function pay(uint256 _issue, uint256 _pullRequest, string memory _commitHash) public onlyOwner {
+    function pay(uint256 _issue, uint256 _pullRequest) public onlyOwner {
         uint256 i = getIndex(_issue);
         contributions[i].pullRequest = _pullRequest;
-        contributions[i].commitHash = _commitHash;
         contributions[i].paid = true;
 
         ERC20(tokenAddress).transfer(
             contributions[i].recipient,
             contributions[i].amount * 10 ** 18
         );
-        emit Paid(_issue, _pullRequest, _commitHash, block.timestamp);
+        emit Paid(_issue, _pullRequest, block.timestamp);
     }
 
     function flush(uint256 _issue) public onlyFunder {
