@@ -7,12 +7,14 @@ const { ethers } = require("hardhat")
 describe("Pattini", function () {
     async function deployContracts() {
         const [alice, bob] = await ethers.getSigners()
-        const initialOwner = alice
+
+        const initialOwner = alice.address
 
         const repositoryName = "github-action-test"
         const EUR = await ethers.getContractFactory("EUR")
         const eur = await EUR.deploy()
         const tokenAddress = await eur.getAddress()
+
         const funderAddress = alice.address
         const Pattini = await ethers.getContractFactory("Pattini")
         const pattini = await Pattini.deploy(
@@ -21,7 +23,9 @@ describe("Pattini", function () {
             tokenAddress,
             funderAddress
         )
-        await eur.transfer(await pattini.getAddress(), ethers.parseEther("42"))
+        await eur.transfer(await pattini.getAddress(), ethers.parseEther("200"))
+        await eur.approve(await pattini.getAddress(), ethers.parseEther("200"))
+
         return {
             pattini,
             alice,
@@ -39,7 +43,7 @@ describe("Pattini", function () {
                 deployContracts
             )
             expect(await eur.balanceOf(await pattini.getAddress())).to.be.equal(
-                ethers.parseEther("42")
+                ethers.parseEther("200")
             )
             expect(await pattini.tokenAddress()).to.equal(tokenAddress)
         })
@@ -84,6 +88,25 @@ describe("Pattini", function () {
             ).to.be.revertedWith("Issue already paid")
 
             expect(await pattini.take(55555, 42, bob.address)).to.emit()
+        })
+        it("Should flush", async function () {
+            const { pattini, bob, eur, alice } = await loadFixture(
+                deployContracts
+            )
+
+            await pattini.take(88888, 42, bob.address)
+            expect((await pattini.getIssue(88888))[1]).to.be.equal(42)
+
+            expect(await eur.balanceOf(await pattini.getAddress())).to.be.equal(
+                ethers.parseEther("200")
+            )
+            await pattini.take(55555, 58, bob.address)
+
+            await pattini.flush()
+
+            expect(await eur.balanceOf(await pattini.getAddress())).to.be.equal(
+                ethers.parseEther("100")
+            )
         })
     })
 })
