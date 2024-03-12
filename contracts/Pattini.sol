@@ -53,7 +53,9 @@ contract Pattini is Ownable {
         string memory _previousCommitHash,
         address _recipient
     ) public onlyOwner {
-        // TODO: check if already taken
+        uint256 index = getIndex(_issue);
+        require(index == contributions.length || !contributions[index].paid, "Issue already paid");
+
         contributions.push(
             Contribution({
                 issue: _issue,
@@ -86,14 +88,12 @@ contract Pattini is Ownable {
     }
 
     function getIndex(uint256 _issue) private view returns (uint256) {
-        uint256 result;
-
         for (uint256 i; i < contributions.length; i++) {
             if (contributions[i].issue == _issue) {
-                result = i;
+                return i;
             }
         }
-        return result;
+        return contributions.length;
     }
 
     function getIssue(uint256 _issue) public view returns (Contribution memory) {
