@@ -18,7 +18,7 @@ export default async ({ getNamedAccounts, deployments }: any) => {
 
     const pattini = await deploy("Pattini", {
         from: deployer,
-        args: [repositoryName, tokenAddress, funderAddress],
+        args: [deployer, repositoryName, tokenAddress, funderAddress],
         log: true
     })
 
