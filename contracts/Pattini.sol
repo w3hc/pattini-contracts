@@ -12,7 +12,6 @@ contract Pattini is Ownable {
     struct Contribution {
         uint256 issue; // issue number
         uint256 amount; // `amount` Github project custom field
-        string previousCommitHash; // hash before contrib // example: 6d0b2cb70a365dfc2e62136f134741bd5ac21a97 // git rev-parse HEAD
         address recipient; // contributor address
         bool paid;
         uint256 pullRequest;
@@ -24,7 +23,6 @@ contract Pattini is Ownable {
         uint256 indexed issue,
         uint256 indexed amount,
         address indexed recipient,
-        string previousCommitHash,
         uint256 timestamp
     );
 
@@ -41,12 +39,7 @@ contract Pattini is Ownable {
         _;
     }
 
-    function take(
-        uint256 _issue,
-        uint256 _amount,
-        string memory _previousCommitHash,
-        address _recipient
-    ) public onlyOwner {
+    function take(uint256 _issue, uint256 _amount, address _recipient) public onlyOwner {
         uint256 index = getIndex(_issue);
         require(index == contributions.length || !contributions[index].paid, "Issue already paid");
 
@@ -54,13 +47,12 @@ contract Pattini is Ownable {
             Contribution({
                 issue: _issue,
                 amount: _amount,
-                previousCommitHash: _previousCommitHash,
                 recipient: _recipient,
                 paid: false,
                 pullRequest: 0
             })
         );
-        emit Taken(_issue, _amount, _recipient, _previousCommitHash, block.timestamp);
+        emit Taken(_issue, _amount, _recipient, block.timestamp);
     }
 
     function pay(uint256 _issue, uint256 _pullRequest) public onlyOwner {

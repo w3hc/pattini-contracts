@@ -46,13 +46,13 @@ describe("Pattini", function () {
     describe("Interactions", function () {
         it("Should take an issue", async function () {
             const { pattini, bob } = await loadFixture(deployContracts)
-            await pattini.take(88888, 42, "abcd", bob.address)
+            await pattini.take(88888, 42, bob.address)
             expect((await pattini.getIssue(88888))[1]).to.be.equal(42)
         })
         it("Should pay a contributor", async function () {
             const { pattini, bob, eur } = await loadFixture(deployContracts)
 
-            await pattini.take(88888, 42, "abcd", bob.address)
+            await pattini.take(88888, 42, bob.address)
             expect((await pattini.getIssue(88888))[1]).to.be.equal(42)
 
             expect(await eur.balanceOf(bob.address)).to.be.equal(
@@ -66,7 +66,7 @@ describe("Pattini", function () {
         it("Should not take the issue", async function () {
             const { pattini, bob, eur } = await loadFixture(deployContracts)
 
-            await pattini.take(88888, 42, "abcd", bob.address)
+            await pattini.take(88888, 42, bob.address)
             expect((await pattini.getIssue(88888))[1]).to.be.equal(42)
 
             expect(await eur.balanceOf(bob.address)).to.be.equal(
@@ -78,10 +78,10 @@ describe("Pattini", function () {
             )
 
             await expect(
-                pattini.take(88888, 42, "abcd", bob.address)
+                pattini.take(88888, 42, bob.address)
             ).to.be.revertedWith("Issue already paid")
 
-            expect(await pattini.take(55555, 42, "abcd", bob.address)).to.emit()
+            expect(await pattini.take(55555, 42, bob.address)).to.emit()
         })
     })
 })
