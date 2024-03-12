@@ -7,6 +7,7 @@ const { ethers } = require("hardhat")
 describe("Pattini", function () {
     async function deployContracts() {
         const [alice, bob] = await ethers.getSigners()
+        const initialOwner = alice
 
         const repositoryName = "github-action-test"
         const EUR = await ethers.getContractFactory("EUR")
@@ -15,6 +16,7 @@ describe("Pattini", function () {
         const funderAddress = alice.address
         const Pattini = await ethers.getContractFactory("Pattini")
         const pattini = await Pattini.deploy(
+            initialOwner,
             repositoryName,
             tokenAddress,
             funderAddress

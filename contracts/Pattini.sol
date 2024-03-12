@@ -28,7 +28,12 @@ contract Pattini is Ownable {
 
     event Paid(uint256 indexed issue, uint256 indexed pullRequest, uint256 timestamp);
 
-    constructor(string memory _repositoryName, address _tokenAddress, address _funderAddress) {
+    constructor(
+        address _initialOwner,
+        string memory _repositoryName,
+        address _tokenAddress,
+        address _funderAddress
+    ) Ownable(_initialOwner) {
         repositoryName = _repositoryName;
         tokenAddress = _tokenAddress;
         funderAddress = _funderAddress;
