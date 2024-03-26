@@ -28,7 +28,7 @@ export default async ({ getNamedAccounts, deployments }: any) => {
         case "sepolia":
             try {
                 console.log(
-                    "Basic ERC-20 token contract deployed:",
+                    "Pattini contract deployed:",
                     msg(pattini.receipt.contractAddress)
                 )
                 console.log("\nEtherscan verification in progress...")
@@ -52,7 +52,7 @@ export default async ({ getNamedAccounts, deployments }: any) => {
         case "op-sepolia":
             try {
                 console.log(
-                    "Basic ERC-20 token contract deployed:",
+                    "Pattini contract deployed:",
                     msg(pattini.receipt.contractAddress)
                 )
                 console.log("\nEtherscan verification in progress...")
