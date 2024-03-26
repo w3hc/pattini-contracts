@@ -42,6 +42,17 @@ pnpm sourcify:<NETWORK_NAME>
 
 ## Deployments
 
+### OP Sepolia
+
+-   Pattini: https://sepolia-optimism.etherscan.io/address/0xB6862c491a9f5B0E59DE1e454152fB37B208294F#code
+-   EUR: https://sepolia-optimism.etherscan.io/address/0xAe6F531D8A8ecA22EDC38DC637BA2149FC1fE628#code
+
+Owner: 0xD0fcbD06FBac0416DE976f0dA0B189A3E4FC3566 (Pattini Tester #1)
+
+Deployment: https://github.com/w3hc/pattini-contracts/pull/13
+
+### Sepolia
+
 -   First deployment to Sepolia: https://sepolia.etherscan.io/address/0x4ce76EA09136fA38CD54c2EE82ab8403A9b8A414
 -   EUR contract: https://sepolia.etherscan.io/address/0xe6bcd785b90dc16d667b022cc871c046587d9ac5
 
@@ -55,4 +66,4 @@ pnpm sourcify:<NETWORK_NAME>
 
 ## Support
 
-You can contact me via [Element](https://matrix.to/#/@julienbrg:matrix.org), [Telegram](https://t.me/julienbrg), [Twitter](https://twitter.com/julienbrg), [Discord](https://discordapp.com/users/julienbrg), or [LinkedIn](https://www.linkedin.com/in/julienberanger/).
+You can contact me via [Element](https://matrix.to/#/@julienbrg:matrix.org), [Farcaster](https://warpcast.com/julien-), [Telegram](https://t.me/julienbrg), [Twitter](https://twitter.com/julienbrg), [Discord](https://discordapp.com/users/julienbrg), or [LinkedIn](https://www.linkedin.com/in/julienberanger/).
