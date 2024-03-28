@@ -3,8 +3,8 @@ pragma solidity ^0.8.20;
 
 import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 
-contract EUR is ERC20 {
-    constructor() ERC20("Euro", "EUR") {
+contract OP is ERC20 {
+    constructor() ERC20("Optimistic ERC-20", "OP") {
         _mint(msg.sender, 10000000000000000000000);
     }
 
