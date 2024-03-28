@@ -13,10 +13,11 @@ export default async ({ getNamedAccounts, deployments }: any) => {
     const { deployer } = await getNamedAccounts()
     console.log("\ndeployer:", deployer)
 
-    const repositoryName = "github-action-test"
+    const repositoryName = "fables-de-lafontaine"
     // const tokenAddress = "0x7f5c764cbc14f9669b88837ca1490cca17c31607" // USDC on Optimism (bridged from Ethereum)
-    const tokenAddress = "0xe6bcd785b90dc16d667b022cc871c046587d9ac5" // EUR on Sepolia
-    const funderAddress = "0xD8a394e7d7894bDF2C57139fF17e5CBAa29Dd977" // Alice
+    // const tokenAddress = "0xe6bcd785b90dc16d667b022cc871c046587d9ac5" // EUR on Sepolia
+    const tokenAddress = "0x63300A7909B91a1E435Ee7f553264ec0623D018D" // OP on OP Sepolia
+    const funderAddress = deployer // Alice
 
     const pattini = await deploy("Pattini", {
         from: deployer,

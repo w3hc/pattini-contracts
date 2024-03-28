@@ -13,7 +13,7 @@ export default async ({ getNamedAccounts, deployments }: any) => {
     const { deployer } = await getNamedAccounts()
     console.log("\ndeployer:", deployer)
 
-    const eur = await deploy("EUR", {
+    const op = await deploy("OP", {
         from: deployer,
         args: [],
         log: true
@@ -23,14 +23,14 @@ export default async ({ getNamedAccounts, deployments }: any) => {
         case "sepolia":
             try {
                 console.log(
-                    "EUR token contract deployed:",
-                    msg(eur.receipt.contractAddress)
+                    "OP token contract deployed:",
+                    msg(op.receipt.contractAddress)
                 )
                 console.log("\nEtherscan verification in progress...")
                 await wait(90 * 1000)
                 await hre.run("verify:verify", {
                     network: network.name,
-                    address: eur.receipt.contractAddress,
+                    address: op.receipt.contractAddress,
                     constructorArguments: []
                 })
                 console.log("Etherscan verification done. ✅")
@@ -42,8 +42,8 @@ export default async ({ getNamedAccounts, deployments }: any) => {
         case "op-sepolia":
             try {
                 console.log(
-                    "EUR ERC-20 token contract deployed:",
-                    msg(eur.receipt.contractAddress)
+                    "OP ERC-20 token contract deployed:",
+                    msg(op.receipt.contractAddress)
                 )
                 console.log("\nEtherscan verification in progress...")
                 console.log(
@@ -51,7 +51,7 @@ export default async ({ getNamedAccounts, deployments }: any) => {
                 )
                 await hre.run("verify:verify", {
                     network: network.name,
-                    address: eur.receipt.contractAddress,
+                    address: op.receipt.contractAddress,
                     constructorArguments: []
                 })
                 console.log("Etherscan verification done. ✅")

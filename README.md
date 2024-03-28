@@ -44,8 +44,8 @@ pnpm sourcify:<NETWORK_NAME>
 
 ### OP Sepolia
 
--   Pattini: https://sepolia-optimism.etherscan.io/address/0xB6862c491a9f5B0E59DE1e454152fB37B208294F#code
--   EUR: https://sepolia-optimism.etherscan.io/address/0xAe6F531D8A8ecA22EDC38DC637BA2149FC1fE628#code
+-   Pattini: https://sepolia-optimism.etherscan.io/address/0xcF89671fE0D57f4D25E6790B78ad322042d255DB#code
+-   OP: https://sepolia-optimism.etherscan.io/address/0x63300A7909B91a1E435Ee7f553264ec0623D018D#code
 
 Owner: 0xD0fcbD06FBac0416DE976f0dA0B189A3E4FC3566 (Pattini Tester #1)
 
