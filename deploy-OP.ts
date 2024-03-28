@@ -61,4 +61,4 @@ export default async ({ getNamedAccounts, deployments }: any) => {
             break
     }
 }
-export const tags = ["EUR"]
+export const tags = ["OP"]
